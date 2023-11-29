@@ -21,6 +21,7 @@ namespace Databaser_Labb3.Application.Database.ContactDatabaseMethods
             {
                 _connectionString = UserMenu.GetConnectionStringFromUser();
                 File.WriteAllText("EdugradeHighSchoolDBConnectionString.txt", _connectionString);
+
             }
         }
     }
