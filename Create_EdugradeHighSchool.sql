@@ -1,0 +1,103 @@
+USE [master]
+GO
+CREATE DATABASE [EdugradeHighSchool]
+GO
+USE [EdugradeHighSchool]
+GO
+CREATE TABLE [dbo].[Betyg](
+	[BetygId] [int] IDENTITY(1,1) NOT NULL,
+	[Betyg] [varchar](3) NOT NULL,
+	[BetygDatum] [date] NOT NULL,
+	[FK_ÄmneId] [int] NOT NULL,
+	[FK_StudentId] [int] NOT NULL,
+	[FK_PersonalId] [int] NOT NULL,
+ CONSTRAINT [PK_Betyg] PRIMARY KEY CLUSTERED 
+(
+	[BetygId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[Klasser](
+	[KlassId] [int] IDENTITY(1,1) NOT NULL,
+	[KlassNamn] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Klasser] PRIMARY KEY CLUSTERED 
+(
+	[KlassId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[KlassList](
+	[FK_StudentId] [int] NOT NULL,
+	[FK_KlassId] [int] NOT NULL
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[Personal](
+	[PersonalId] [int] IDENTITY(1,1) NOT NULL,
+	[PersonalNamn] [nvarchar](50) NOT NULL,
+	[PersonalBefattning] [tinyint] NOT NULL,
+ CONSTRAINT [PK_Personal] PRIMARY KEY CLUSTERED 
+(
+	[PersonalId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[Studenter](
+	[StudentId] [int] IDENTITY(1,1) NOT NULL,
+	[StudentNamn] [nvarchar](50) NOT NULL,
+	[StudentSSN] [varchar](12) NOT NULL,
+ CONSTRAINT [PK_Students] PRIMARY KEY CLUSTERED 
+(
+	[StudentId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[Ämnen](
+	[ÄmneId] [int] IDENTITY(1,1) NOT NULL,
+	[ÄmneNamn] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Ämne] PRIMARY KEY CLUSTERED 
+(
+	[ÄmneId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Betyg]  WITH CHECK ADD  CONSTRAINT [FK_Betyg_PersonalId] FOREIGN KEY([FK_PersonalId])
+REFERENCES [dbo].[Personal] ([PersonalId])
+GO
+ALTER TABLE [dbo].[Betyg] CHECK CONSTRAINT [FK_Betyg_PersonalId]
+GO
+ALTER TABLE [dbo].[Betyg]  WITH CHECK ADD  CONSTRAINT [FK_Betyg_StudentId] FOREIGN KEY([FK_StudentId])
+REFERENCES [dbo].[Studenter] ([StudentId])
+GO
+ALTER TABLE [dbo].[Betyg] CHECK CONSTRAINT [FK_Betyg_StudentId]
+GO
+ALTER TABLE [dbo].[Betyg]  WITH CHECK ADD  CONSTRAINT [FK_Betyg_Ämnen] FOREIGN KEY([FK_ÄmneId])
+REFERENCES [dbo].[Ämnen] ([ÄmneId])
+GO
+ALTER TABLE [dbo].[Betyg] CHECK CONSTRAINT [FK_Betyg_Ämnen]
+GO
+ALTER TABLE [dbo].[KlassList]  WITH CHECK ADD  CONSTRAINT [FK_KlassList_KlassId] FOREIGN KEY([FK_KlassId])
+REFERENCES [dbo].[Klasser] ([KlassId])
+GO
+ALTER TABLE [dbo].[KlassList] CHECK CONSTRAINT [FK_KlassList_KlassId]
+GO
+ALTER TABLE [dbo].[KlassList]  WITH CHECK ADD  CONSTRAINT [FK_KlassList_StudentId] FOREIGN KEY([FK_StudentId])
+REFERENCES [dbo].[Studenter] ([StudentId])
+GO
+ALTER TABLE [dbo].[KlassList] CHECK CONSTRAINT [FK_KlassList_StudentId]
+GO
+CREATE PROCEDURE [dbo].[SP_KLASSER_GET_LIST]
+AS
+	BEGIN
+	SELECT KlassId, KlassNamn
+	FROM Klasser
+END
+GO
+USE [master]
+GO
+ALTER DATABASE [EdugradeHighSchool] SET  READ_WRITE 
+GO
