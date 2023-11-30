@@ -2,13 +2,13 @@
 
 namespace Databaser_Labb3.Application.Database.DTO
 {
-    internal class DTO_KlassList
+    internal class KlassListModel
     {
         [ForeignKey("StudentId")]
-        private int FK_StudentId { get; set; }
+        public int FK_StudentId { get; set; }
 
         [ForeignKey("KlassId")]
-        private int FK_KlassId { get; set; }
+        public int FK_KlassId { get; set; }
 
     }
 }

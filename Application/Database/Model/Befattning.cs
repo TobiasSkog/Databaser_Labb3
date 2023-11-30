@@ -4,6 +4,7 @@
     {
         Lärare,
         Administratör,
-        UtbildningsLedare
+        UtbildningsLedare,
+        Unspecified
     }
 }

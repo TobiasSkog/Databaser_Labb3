@@ -8,9 +8,8 @@
         GetPersonalTeachersOnly,
         GetPersonalAdminsOnly,
         GetPersonalLeadersOnly,
-        GetStudent,
-        GetStudentByFirstName,
-        GetStudentByLastName,
+        GetStudents,
+        GetStudentsAll,
         GetStudentsByClass,
         GetGrades,
         GetGradesLastMonth,
@@ -20,10 +19,9 @@
         AddUser,
         AddStudent,
         AddPersonal,
-        SortAscending,
-        SortDescending,
         Back,
         Exit,
+        WelcomeMenu,
         Invalid
     }
 }

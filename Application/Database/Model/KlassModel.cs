@@ -2,12 +2,12 @@
 
 namespace Databaser_Labb3.Application.Database.DTO
 {
-    internal class DTO_Ämnen
+    internal class KlassModel
     {
         [Key]
-        private int ÄmneId { get; set; }
+        public int KlassId { get; set; }
 
         [MaxLength(50)]
-        private string ÄmneNamn { get; set; }
+        public string KlassNamn { get; set; }
     }
 }

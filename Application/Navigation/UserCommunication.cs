@@ -1,8 +1,10 @@
-﻿using Spectre.Console;
+﻿using Databaser_Labb3.Application.Database.DTO;
+using Databaser_Labb3.Application.Database.Model;
+using Spectre.Console;
 
 namespace Databaser_Labb3.Application.Navigation
 {
-    internal partial class UserMenu
+    internal partial class UserCommunication
     {
         private static readonly Style Labb3Style = new Style(Color.Green3_1, default, Decoration.Underline);
         private static readonly string Title = "[green3]";
@@ -11,10 +13,13 @@ namespace Databaser_Labb3.Application.Navigation
         private static readonly string Exit = "[mediumvioletred]";
         private static readonly string DividerTextColor = "springgreen2_1";
         private static readonly string DividerLineColor = "springgreen1";
+        private static readonly Color TableBorderColor = Color.SpringGreen1;
+
 
 
         public static UserChoice WelcomeMenu()
         {
+            AnsiConsole.Clear();
             WriteDivider(DividerTextColor, DividerLineColor, "Edugrade High School");
 
 
@@ -26,7 +31,6 @@ namespace Databaser_Labb3.Application.Navigation
                     {
                         $"{Choice}Get Personal Information[/]",
                         $"{Choice}Get Student Information[/]",
-                        $"{Choice}Get Class Information[/]",
                         $"{Choice}Get Grade Information[/]",
                         $"{Choice}Get Course Information[/]",
                         $"{Choice}Add New Users To The Database[/]",
@@ -34,11 +38,16 @@ namespace Databaser_Labb3.Application.Navigation
                     }
                 ));
 
+            //  $"{Choice}Get Grade Information[/]",
+            //  $"{Choice}Get Course Information[/]",
+
+
             return GetUserChoiceFromSelection(selectionString);
         }
 
         public static UserChoice GetPersonalMenu()
         {
+            AnsiConsole.Clear();
             WriteDivider(DividerTextColor, DividerLineColor, "Edugrade High School | Personal Information");
 
             string selectionString = AnsiConsole.Prompt(
@@ -55,8 +64,9 @@ namespace Databaser_Labb3.Application.Navigation
 
             return GetUserChoiceFromSelection(selectionString);
         }
-        public static UserChoice GetPersonalByRoleMenu()
+        public static Befattning GetPersonalByRoleMenu()
         {
+            AnsiConsole.Clear();
             WriteDivider(DividerTextColor, DividerLineColor, "Edugrade High School | Personal Information");
 
             string selectionString = AnsiConsole.Prompt(
@@ -72,10 +82,11 @@ namespace Databaser_Labb3.Application.Navigation
                     }
                 ));
 
-            return GetUserChoiceFromSelection(selectionString);
+            return GetBefattningFromSelection(selectionString);
         }
-        public static UserChoice GetStudentMenu()
+        public static UserChoice GetStudentsMenu()
         {
+            AnsiConsole.Clear();
             WriteDivider(DividerTextColor, DividerLineColor, "Edugrade High School | Student Information");
 
             string selectionString = AnsiConsole.Prompt(
@@ -93,9 +104,11 @@ namespace Databaser_Labb3.Application.Navigation
 
             return GetUserChoiceFromSelection(selectionString);
         }
-        public static UserChoice GetSortByNameOptionsMenu(string userType)
+
+        public static SortOption GetSortByNameOptionsMenu()
         {
-            WriteDivider(DividerTextColor, DividerLineColor, $"Edugrade High School | {userType} Information"); ;
+            AnsiConsole.Clear();
+            WriteDivider(DividerTextColor, DividerLineColor, $"Edugrade High School | How To Display Your Information"); ;
 
             string selectionString = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
@@ -110,11 +123,13 @@ namespace Databaser_Labb3.Application.Navigation
                     }
                 ));
 
-            return GetUserChoiceFromSelection(selectionString);
+            return GetSortOptionFromSelection(selectionString);
         }
-        public static UserChoice GetSortByAscendingOrDescendingOptionsMenu(string userType)
+
+        public static SortOption GetSortByAscendingOrDescendingOptionsMenu()
         {
-            WriteDivider(DividerTextColor, DividerLineColor, $"Edugrade High School | {userType} Information"); ;
+            AnsiConsole.Clear();
+            WriteDivider(DividerTextColor, DividerLineColor, $"Edugrade High School | How To Display Your Information");
 
             string selectionString = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
@@ -129,26 +144,42 @@ namespace Databaser_Labb3.Application.Navigation
                     }
                 ));
 
-            return GetUserChoiceFromSelection(selectionString);
+            return GetSortOptionFromSelection(selectionString);
         }
 
-        //public static UserChoice GetStudentsFromClassMenu()
-        //{
-        //    // Get Class Names From DB
-        //}
+
+        public static string GetStudentsFromClassMenu(List<KlassModel> existingClasses)
+        {
+            AnsiConsole.Clear();
+
+            WriteDivider(DividerTextColor, DividerLineColor, $"Edugrade High School | Student Information");
+
+            var choices = GetEveryClassFromHighSchoolDB(existingClasses);
+
+            string selectionString = AnsiConsole.Prompt(
+                 new SelectionPrompt<string>()
+                     .Title($"{Title}From What Class?[/]")
+                     .HighlightStyle(Labb3Style)
+                     .AddChoices(choices)
+                     );
+
+            return Markup.Remove(selectionString);
+        }
 
         //public static UserChoice GetGradesMenu()
         //{
+        // AnsiConsole.Clear();
 
         //}
 
         //public static UserChoice GetCoursesMenu()
         //{
-
+        //AnsiConsole.Clear();
         //}
 
         public static UserChoice AddUsersMenu()
         {
+            AnsiConsole.Clear();
             WriteDivider(DividerTextColor, DividerLineColor, "Edugrade High School | Add Users");
 
             string selectionString = AnsiConsole.Prompt(
@@ -168,16 +199,12 @@ namespace Databaser_Labb3.Application.Navigation
         }
         //public static UserChoice AddStudentMenu()
         //{
-
+        //  AnsiConsole.Clear();
         //}
         //public static UserChoice AddPersonalMenu()
         //{
-
+        //  AnsiConsole.Clear();
         //}
-        public static string GetConnectionStringFromUser()
-        {
-            return AnsiConsole.Ask<string>($"{Title}Please enter a valid Connection String to the database:[/]");
-        }
 
     }
 }
